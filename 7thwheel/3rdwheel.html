@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en" class="h-100" data-bs-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Benicio Enriquez" />
+  <title>The7thWheel</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.3/html2pdf.bundle.min.js"></script>
+</head>
+
+<body class="d-flex text-center justify-content-center align-items-center">
+
+  <div class="d-flex w-100 h-100 p-3 mx-auto flex-column justify-content-center align-items-center">
+    <header class="mb-auto w-100">
+      <div>
+        <h3 class="float-md-start mb-0">3rd Wheel Quiz</h3>
+        <nav class="nav nav-masthead justify-content-center float-md-end">
+          <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
+          <a class="nav-link" href="https://ricepuritytest.com/">Rice Purity</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="d-flex w-100 h-100 p-3 mx-auto flex-column justify-content-center align-items-center">
+      <main id="quiz-container" class="px-3 w-100 bg-light text-dark p-4 rounded shadow" style="max-width: 500px;">
+        <!-- Quiz injected here -->
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "Where do you usually sit when your friends are on a date?",
+        options: [
+          { text: "At home, crying", points: 1 },
+          { text: "Right between them", points: 2 },
+          { text: "In the backseat, as God intended", points: 3 }
+        ]
+      },
+      {
+        question: "What's your go-to move when third-wheeling?",
+        options: [
+          { text: "Take photos of them", points: 3 },
+          { text: "Pretend to text", points: 2 },
+          { text: "Start narrating their date", points: 1 },
+          { text: "Engage them in conversation", points: 0 }
+        ]
+      },
+      {
+        question: "How often do you 3rd wheel?",
+        options: [
+          { text: "Less than once a week", points: 1 },
+          { text: "Once a week", points: 2 },
+          { text: "More than once a week", points: 3 }
+        ]
+      },
+      {
+        question: "How do your couple friends introduce you?",
+        options: [
+          { text: "Our friend", points: 1 },
+          { text: "Our emotional support human", points: 2 },
+          { text: "Our permanent third wheel", points: 3 }
+        ]
+      },
+      {
+        question: "You go to the movies with a couple. You...",
+        options: [
+          { text: "Sit alone two rows back", points: 2 },
+          { text: "Sit between them", points: 3 },
+          { text: "Skip the popcorn and head home", points: 1 },
+          { text: "Forget them and enjoy the movie", points: 0 }
+        ]
+      },
+      {
+        question: "When your couple friends hold hands, you...",
+        options: [
+          { text: "Pretend not to notice", points: 1 },
+          { text: "Offer your hand to complete the triangle", points: 3 },
+          { text: "Take a picture for them", points: 2 }
+        ]
+      },
+      {
+        question: "What's your role in group chats with couples?",
+        options: [
+          { text: "Mediating arguments", points: 3 },
+          { text: "Sharing memes", points: 1 },
+          { text: "Silently watching them flirt", points: 2 }
+        ]
+      },
+      {
+        question: "They invite you to double dates. You...",
+        options: [
+          { text: "Decline politely", points: 1 },
+          { text: "Bring a stuffed animal as your 'date'", points: 3 },
+          { text: "Tag along anyway", points: 2 }
+        ]
+      },
+      {
+        question: "Your couple friends kiss. You...",
+        options: [
+          { text: "Look away", points: 1 },
+          { text: "Rate it out of 10", points: 3 },
+          { text: "Cheer softly", points: 2 }
+        ]
+      },
+      {
+        question: "You're in all their selfies because...",
+        options: [
+          { text: "You're the one taking them", points: 1 },
+          { text: "They forget to crop you out", points: 2 },
+          { text: "You're just always there", points: 3 }
+        ]
+      },
+      {
+        question: "You hear 'date night' and think...",
+        options: [
+          { text: "Guess I'm invited", points: 3 },
+          { text: "Time to stay in", points: 1 },
+          { text: "Should I be the waiter?", points: 2 }
+        ]
+      },
+      {
+        question: "When your friends argue, you...",
+        options: [
+          { text: "Calm them down", points: 2 },
+          { text: "Grab snacks and spectate", points: 3 },
+          { text: "Quietly exit", points: 1 }
+        ]
+      },
+      {
+        question: "They ask you to hang out, but it’s just the two of them. You...",
+        options: [
+          { text: "Say no thanks", points: 1 },
+          { text: "Third wheel like a champ", points: 3 },
+          { text: "Bring a book", points: 2 }
+        ]
+      },
+      {
+        question: "Valentine’s Day plans?",
+        options: [
+          { text: "Crying", points: 1 },
+          { text: "Hanging out with a couple", points: 3 },
+          { text: "Watching romantic comedies alone", points: 2 }
+        ]
+      },
+      {
+        question: "They say 'We need to talk'. You...",
+        options: [
+          { text: "Log off", points: 1 },
+          { text: "Offer to mediate", points: 3 },
+          { text: "Text 'everything ok?'", points: 2 }
+        ]
+      },
+      {
+        question: "At weddings, you...",
+        options: [
+          { text: "Sit at the kids table", points: 2 },
+          { text: "Photobomb couples", points: 3 },
+          { text: "Dance with the punch bowl", points: 1 }
+        ]
+      },
+      {
+        question: "Your role in romantic comedies is...",
+        options: [
+          { text: "Comic relief", points: 2 },
+          { text: "Guy who brings snacks", points: 1 },
+          { text: "The literal third wheel", points: 3 }
+        ]
+      },
+      {
+        question: "When friends say 'us time', you think...",
+        options: [
+          { text: "Me too?", points: 3 },
+          { text: "Cool cool", points: 1 },
+          { text: "I'll be quiet in the background", points: 2 }
+        ]
+      },
+      {
+        question: "You show up to dinner and realize it’s a date. You...",
+        options: [
+          { text: "Leave quickly", points: 1 },
+          { text: "Third-wheel with pride", points: 3 },
+          { text: "Order a bottle for yourself", points: 2 }
+        ]
+      },
+      {
+        question: "Your love life is best described as...",
+        options: [
+          { text: "Paused", points: 1 },
+          { text: "Observational", points: 2 },
+          { text: "Non-existent but enthusiastic", points: 3 }
+        ]
+      },
+      {
+        question: "You’ve been called...",
+        options: [
+          { text: "The +1 of the +2", points: 3 },
+          { text: "The group pet", points: 2 },
+          { text: "The designated friend", points: 1 }
+        ]
+      },
+      {
+        question: "How do you feel about candles at dinner?",
+        options: [
+          { text: "Romantic", points: 1 },
+          { text: "Overkill", points: 2 },
+          { text: "Trip hazard", points: 3 }
+        ]
+      },
+      {
+        question: "You once gave your couple friends...",
+        options: [
+          { text: "Matching sweaters", points: 2 },
+          { text: "A couples coupon book", points: 3 },
+          { text: "A third-wheel survival kit", points: 1 }
+        ]
+      },
+      {
+        question: "You accidentally booked a room with one bed. You...",
+        options: [
+          { text: "Sleep in the tub", points: 3 },
+          { text: "Build a blanket fort", points: 2 },
+          { text: "Book another hotel", points: 1 }
+        ]
+      },
+      {
+        question: "They ask you to film their engagement. You...",
+        options: [
+          { text: "Say no", points: 1 },
+          { text: "Film it AND cry", points: 2 },
+          { text: "Film it, narrate it, and edit it", points: 3 }
+        ]
+      },
+      {
+        question: "Third-wheeling is...",
+        options: [
+          { text: "Occasional", points: 1 },
+          { text: "A vibe", points: 2 },
+          { text: "A lifestyle", points: 3 }
+        ]
+      }
+    ];
+
+    // Load state from localStorage if available
+    let current = parseInt(localStorage.getItem("quiz-current") || "0");
+    let answers = JSON.parse(localStorage.getItem("quiz-answers") || "[]");
+
+    const quizContainer = document.getElementById("quiz-container");
+
+    function saveState() {
+      localStorage.setItem("quiz-current", current);
+      localStorage.setItem("quiz-answers", JSON.stringify(answers));
+    }
+
+    function renderQuestion() {
+      const q = questions[current];
+
+      quizContainer.innerHTML = `
+        <form id="quiz-form">
+          <h4 class="mb-4">${q.question}</h4>
+          ${q.options.map((opt, i) => `
+            <div class="form-check text-start ms-3 mb-2">
+              <input class="form-check-input" type="radio" name="answer" id="opt${i}" value="${i}" required>
+              <label class="form-check-label" for="opt${i}">${opt.text}</label>
+            </div>
+          `).join('')}
+
+          <div class="d-flex flex-row justify-content-between align-items-end mt-4">
+            <h5 class="ms-2">${current + 1} / ${questions.length}</h5>
+            <button type="submit" class="btn btn-secondary fw-bold">Submit</button>
+          </div>
+        </form>
+      `;
+
+      document.getElementById("quiz-form").addEventListener("submit", handleSubmit);
+    }
+
+    function generateCertificate(name, percentage) {
+      quizContainer.innerHTML = `
+        <div id="certificate" class="text-dark text-center bg-white p-5 mb-3 rounded shadow" style="max-width: 700px; margin: auto;">
+          <h1 class="mb-4">Certificate of 3rd Wheeling</h1>
+          <p class="lead mb-4">This certifies that</p>
+          <h2 class="fw-bold mb-4" id="cert-name">${name}</h2>
+          <p class="mb-4">has officially achieved <strong>${percentage}%</strong> on the Third Wheel Quiz</p>
+          <p class="fst-italic">Issued by <strong>The7thWheel</strong></p>
+        </div>
+        <button onclick="downloadPDF()" class="btn btn-success mt-2">Download PDF</button>
+        <button onclick="restartQuiz()" class="btn btn-outline-secondary mt-2">Start Over</button>
+      `;
+    }
+
+    async function downloadPDF() {
+      var element = document.getElementById('certificate');
+      html2pdf().set({filename: 'certificate.pdf'}).from(element).save();
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      const selected = document.querySelector('input[name="answer"]:checked');
+      const value = parseInt(selected.value, 10);
+      answers[current] = value;
+      current++;
+      saveState();
+
+      if (current < questions.length) {
+        renderQuestion();
+      } else {
+        renderResult();
+      }
+    }
+
+    function renderResult() {
+      const totalEarned = answers.reduce((sum, index, i) => sum + questions[i].options[index].points, 0);
+      const totalPossible = questions.reduce((sum, q) => sum + Math.max(...q.options.map(opt => opt.points)), 0);
+      const percentage = Math.round((totalEarned / totalPossible) * 100);
+
+      if (percentage < 75) {
+        quizContainer.innerHTML = `
+          <div>
+            <h2 class="mb-4">You are not a 3rd wheel!</h2>
+            <p class="lead">Your score: ${percentage}%</p>
+            <p class="lead">There is hope for you yet! Carry on soldier.</p>
+            <button class="btn btn-primary mt-3" onclick="restartQuiz()">Start Over</button>
+          </div>
+        `;
+      } else {
+        quizContainer.innerHTML = `
+          <div>
+            <h2 class="mb-4">Yep, you're a 3rd wheel alright</h2>
+            <p class="lead">Your score: ${percentage}%</p>
+            <p class="lead">Please fill out your name to receive your certificate</p>
+            <form id="certForm" class="mt-3">
+              <input type="text" class="form-control mb-3" placeholder="Your Name" id="certName" required>
+              <button type="submit" class="btn btn-success">Generate Certificate</button>
+            </form>
+            <button class="btn btn-primary mt-3" onclick="restartQuiz()">Start Over</button>
+          </div>
+        `;
+
+        document.getElementById("certForm").addEventListener("submit", function (e) {
+          e.preventDefault();
+          const name = document.getElementById("certName").value.trim();
+          if (!name) return;
+
+          generateCertificate(name, percentage);
+        });
+      }
+    }
+
+    function restartQuiz() {
+      current = 0;
+      answers = [];
+      saveState();
+      renderQuestion();
+    }
+
+    // Start on load
+    if (current >= questions.length) {
+      renderResult();
+    } else {
+      renderQuestion();
+    }
+  </script>
+
+  <a href="#" onclick="restartQuiz()" style="
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    z-index: 1000;
+    ">
+    Reset Quiz
+  </a>
+</body>
+
+</html>
